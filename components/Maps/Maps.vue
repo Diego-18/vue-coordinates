@@ -1,44 +1,85 @@
 /* jshint sub:true */
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <client-only v-if="coordOrigin.length > 0">
-      <l-map :zoom="12" :center="[coordOrigin[0], coordOrigin[1]]">
-        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" title="Current Location"/>
+    <client-only>
+      <l-map :zoom="12" :center="[6.224521, -75.533752]" @click="addMarker">
+        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
 
         <l-marker
           v-if="coordOrigin.length > 0"
-          :lat-lng="[coordOrigin[0], coordOrigin[1]]"
+          :lat-lng="[coordOrigin[0]['lat'], coordOrigin[0]['lng']]"
         />
 
-        l-marker
-          v-if="coordDestination.length > 0"
-          :lat-lng="[coordDestination[0], coordDestination[1]]"
+        <l-marker
+          v-if="destination.length > 0"
+          :lat-lng="[destination[0]['lat'], destination[0]['lng']]"
         />
       </l-map>
     </client-only>
   </div>
 </template>
 <script>
-import { ref } from "vue";
-import { defineComponent, onMounted } from "@nuxtjs/composition-api";
+import { useStore, onMounted } from "@nuxtjs/composition-api";
+import { ref, computed } from "vue";
 
-export default defineComponent({
-  props: {
-  Origin: [],
-  Destination: [],
-  },
-  setup(props, { emit }) {
+export default {
+  setup() {
     /** DATA */
-    const coordOrigin = ref(props.Origin);
-    const coordDestination = ref(props.Destination);
+    const store = useStore();
+    const coordOrigin = ref([]);
+    const coordDestination = ref();
+    const origin = computed(() => store.getters.getOrigin);
+    const destination = computed(() => store.getters.getDestination);
 
     /** METHODS */
+    onMounted(() => {
+      getLocationCurrent();
+    });
 
+    const getLocationCurrent = () => {
+      if (navigator.geolocation) {
+        const success = function (position) {
+          const dataOrigin = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          console.log(dataOrigin);
+          coordOrigin.value.push(dataOrigin);
+          // console.log(coordOrigin.value);
+          store.dispatch("removeCoordOrigin");
+          store.dispatch("addCoordOrigin", dataOrigin);
+        };
+        navigator.geolocation.getCurrentPosition(success, function (msg) {
+          console.error(msg);
+        });
+      }
+    };
+    const addMarker = (event) => {
+      if (origin.value.length >= 1) {
+        coordDestination.value = event.latlng;
+        store.dispatch("removeCoordDestination");
+        store.dispatch("addCoordDestination", coordDestination.value);
+      }
+
+      if (destination.value.length === 0) {
+        coordDestination.value = event.latlng;
+        store.dispatch("addCoordDestination", coordDestination.value);
+      }
+
+      if (destination.value.length >= 1) {
+        coordDestination.value = event.latlng;
+        store.dispatch("removeCoordDestination");
+        store.dispatch("addCoordDestination", coordDestination.value);
+      }
+    };
 
     return {
       coordOrigin,
       coordDestination,
+      origin,
+      destination,
+      addMarker,
     };
   },
-});
+};
 </script>
