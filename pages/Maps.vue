@@ -69,7 +69,7 @@
                   label="Lat. Destino"
                   solo
                   elevation="2"
-                  disabled
+                  
                 />
               </v-col>
               <v-col class="col-6 col-lg-6 col-xl-6 ml-0 mr-0">
@@ -78,7 +78,7 @@
                   label="Long. Destino"
                   solo
                   elevation="2"
-                  disabled
+
                 />
               </v-col>
             </v-row>

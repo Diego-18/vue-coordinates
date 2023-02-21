@@ -6,7 +6,7 @@
           <v-list-item-icon>
             <v-icon>mdi-arrow-right-bold-circle</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="white--text font-weight-medium"
+          <v-list-item-title class="font-weight-medium"
             >Welcome</v-list-item-title
           >
         </v-list-item>
@@ -14,7 +14,7 @@
           <v-list-item-icon>
             <v-icon>mdi-google-maps</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="white--text font-weight-medium"
+          <v-list-item-title class="font-weight-medium"
             >Maps</v-list-item-title
           >
         </v-list-item>
@@ -34,22 +34,53 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar height="60" app clipped-left color="black" dense flat>
-      <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer" />
+    <v-app-bar height="60" app clipped-left dense flat>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-spacer />
+      <v-btn v-if="$vuetify.theme.dark == false" icon @click="toggleTheme()"
+        ><v-icon class="mr-1" color="blue-grey darken-4"
+          >mdi-lightbulb</v-icon
+        ></v-btn
+      >
+      <v-btn icon @click="toggleTheme()" v-if="$vuetify.theme.dark"
+        ><v-icon class="mr-1" color="yellow darken-4"
+          >mdi-lightbulb-outline</v-icon
+        ></v-btn
+      >
     </v-app-bar>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, useContext } from "@nuxtjs/composition-api";
 export default {
   name: "HeaderBar",
   setup() {
     /** DATA */
     const drawer = ref(true);
+    const { $vuetify } = useContext();
+    const isDarkBrowser = ref();
+
+    const toggleTheme = () => {
+      $vuetify.theme.dark = !$vuetify.theme.dark;
+    };
+
+    const isDark = () => {
+      isDarkBrowser.value = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (isDarkBrowser.value) {
+        return ($vuetify.theme.dark = true);
+      } else {
+        return ($vuetify.theme.dark = false);
+      }
+    };
+
     return {
       drawer,
+      toggleTheme,
+      isDark,
+      isDarkBrowser,
     };
   },
 };
