@@ -2,7 +2,7 @@
   <v-app dark>
     <v-main>
       <v-container fluid style="padding: 0px">
-        <HeaderBar class="mb-4"/>
+        <HeaderBar />
         <Nuxt />
       </v-container>
     </v-main>

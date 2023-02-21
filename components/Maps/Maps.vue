@@ -9,6 +9,11 @@
           v-if="coordOrigin.length > 0"
           :lat-lng="[coordOrigin[0], coordOrigin[1]]"
         />
+
+        l-marker
+          v-if="coordDestination.length > 0"
+          :lat-lng="[coordDestination[0], coordDestination[1]]"
+        />
       </l-map>
     </client-only>
   </div>
@@ -18,30 +23,21 @@ import { ref } from "vue";
 import { defineComponent, onMounted } from "@nuxtjs/composition-api";
 
 export default defineComponent({
-  setup() {
+  props: {
+  Origin: [],
+  Destination: [],
+  },
+  setup(props, { emit }) {
     /** DATA */
-    const coordOrigin = ref([]);
-    const coordDestination = ref();
+    const coordOrigin = ref(props.Origin);
+    const coordDestination = ref(props.Destination);
 
     /** METHODS */
-    onMounted(() => {
-      getLocationCurrent();
-    });
 
-    const getLocationCurrent = () => {
-      if (navigator.geolocation) {
-        const success = function (position) {
-          coordOrigin.value.push(position.coords.latitude);
-          coordOrigin.value.push(position.coords.longitude);
-        };
-        navigator.geolocation.getCurrentPosition(success, function (msg) {
-          console.error(msg);
-        });
-      }
-    };
 
     return {
       coordOrigin,
+      coordDestination,
     };
   },
 });
