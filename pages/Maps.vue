@@ -61,15 +61,8 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  useStore,
-  computed,
-  onMounted,
-} from "@nuxtjs/composition-api";
+import { defineComponent, useStore, computed } from "@nuxtjs/composition-api";
 import Maps from "@/components/Maps/Maps.vue";
-import Service from "../services/Services";
 
 export default defineComponent({
   name: "MapsPage",
@@ -79,15 +72,8 @@ export default defineComponent({
   setup() {
     /** DATA */
     const store = useStore();
-    const service = ref(new Service());
     const origin = computed(() => store.getters.getOrigin);
     const destination = computed(() => store.getters.getDestination);
-
-    /** Methods */
-    onMounted(() => {
-      console.log(origin);
-      console.log(destination);
-    });
 
     return {
       origin,
@@ -101,4 +87,3 @@ export default defineComponent({
   margin: 0 !important;
 }
 </style>
-

@@ -14,9 +14,7 @@
           <v-list-item-icon>
             <v-icon>mdi-google-maps</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="font-weight-medium"
-            >Maps</v-list-item-title
-          >
+          <v-list-item-title class="font-weight-medium">Maps</v-list-item-title>
         </v-list-item>
         <v-list subheader class="cstm-footer">
           <svg
@@ -59,28 +57,14 @@ export default {
     /** DATA */
     const drawer = ref(true);
     const { $vuetify } = useContext();
-    const isDarkBrowser = ref();
 
     const toggleTheme = () => {
       $vuetify.theme.dark = !$vuetify.theme.dark;
     };
 
-    const isDark = () => {
-      isDarkBrowser.value = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      if (isDarkBrowser.value) {
-        return ($vuetify.theme.dark = true);
-      } else {
-        return ($vuetify.theme.dark = false);
-      }
-    };
-
     return {
       drawer,
       toggleTheme,
-      isDark,
-      isDarkBrowser,
     };
   },
 };
@@ -88,11 +72,5 @@ export default {
 <style>
 .nuxt-logo-small {
   width: 3rem;
-}
-
-.cstm-footer {
-  bottom: 0;
-  position: fixed;
-  padding: 0.5rem 1rem;
 }
 </style>
