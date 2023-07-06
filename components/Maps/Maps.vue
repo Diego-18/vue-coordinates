@@ -1,7 +1,7 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
     <client-only>
-      <l-map :zoom="12" :center="[6.224521, -75.533752]" @click="addMarker">
+      <l-map :zoom="12" :center="coordOrigin[0]" @click="addMarker">
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
 
         <l-marker v-if="coordOrigin.length > 0" :lat-lng="coordOrigin[0]" />
