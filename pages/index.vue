@@ -148,7 +148,7 @@ export default defineComponent({
     onMounted(() => {
       setTimeout(() => {
         getAddressOrigin(origin.value[0]?.lat, origin.value[0]?.lng);
-      }, 3000);
+      }, 5000);
     });
 
     watch(
