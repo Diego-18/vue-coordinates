@@ -26,7 +26,7 @@
                     label="Direccción de Origen"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                     v-model="addressOrigin"
                   />
                 </v-col>
@@ -37,7 +37,7 @@
                     label="Lat. Origen"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                   />
                 </v-col>
                 <v-col class="col-12 col-lg-6" v-if="origin.length > 0">
@@ -48,7 +48,7 @@
                     label="Long. Origen"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                   />
                 </v-col>
               </v-row>
@@ -60,7 +60,7 @@
                     label="Direccción de Destino"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                     v-model="addressDestination"
                   />
                 </v-col>
@@ -72,7 +72,7 @@
                     label="Lat. Destino"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                   />
                 </v-col>
 
@@ -84,7 +84,7 @@
                     label="Long. Destino"
                     solo
                     elevation="2"
-                    disabled
+                    readonly
                   />
                 </v-col>
               </v-row>
